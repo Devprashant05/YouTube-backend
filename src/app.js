@@ -34,7 +34,7 @@ app.use(express.static("public"));
 // this is used for handle the users browser cookies for CRUD operations through server.
 app.use(cookieParser());
 
-//routes
+// routes
 app.use("/api/v1/users", userRouter);
 
 export { app };
