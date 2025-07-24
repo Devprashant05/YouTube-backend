@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import userRouter from "./routes/user.route.js";
 
 const app = express();
 
@@ -32,5 +33,8 @@ app.use(express.static("public"));
 
 // this is used for handle the users browser cookies for CRUD operations through server.
 app.use(cookieParser());
+
+//routes
+app.use("/api/v1/users", userRouter);
 
 export { app };
