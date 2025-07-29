@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import userRouter from "./routes/user.route.js";
+import healthRouter from './routes/healthcheck.route.js'
 
 const app = express();
 
@@ -36,5 +37,6 @@ app.use(cookieParser());
 
 // routes
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/healthcheck", healthRouter)
 
 export { app };

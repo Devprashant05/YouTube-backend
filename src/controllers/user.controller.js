@@ -4,14 +4,14 @@ import { User } from "../models/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const generateAccessAndRefreshTokens = async (userID) => {
+const generateAccessAndRefreshTokens = async (userID) => { 
     try {
         const user = await User.findById(userID);
         const accessToken = user.generateAccessToken();
         const refreshToken = user.generateRefreshToken();
 
-        user.refreshToken = refreshToken;
-        await user.save({ validateBeforeSave: false });
+        user.refreshToken = refreshToken; // Setting the refresh token value 
+        await user.save({ validateBeforeSave: false }); // Saving the value of refresh token in db
 
         return { accessToken, refreshToken };
     } catch (error) {
@@ -136,6 +136,7 @@ const loginUser = asyncHandler(async (req, res) => {
         "-password -refreshToken"
     );
 
+    // for securing the cookie for saving in user browser
     const options = {
         httpOnly: true,
         secure: true,
