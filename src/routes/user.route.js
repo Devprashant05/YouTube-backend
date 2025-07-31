@@ -40,7 +40,7 @@ userRouter.route("/logout").post(verifyJWT, logoutUser);
 userRouter.route("/refresh-token").post(refreshAccessToken);
 
 // Edit routes
-userRouter.route("/change-password").post(verifyJWT, changeCurrentPassword);
+userRouter.route("/change-password").patch(verifyJWT, changeCurrentPassword);
 userRouter.route("/current-user").get(verifyJWT, getCurrentUser);
 userRouter.route("/update-account").patch(verifyJWT, updateAccountDetail);
 userRouter
