@@ -1,4 +1,4 @@
-import { v2 as cloudinary } from "cloudinary";
+import { v2 as cloudinary, v2 } from "cloudinary";
 import fs from "fs";
 
 // config the cloudinary
@@ -29,4 +29,18 @@ const uploadOnCloudinary = async (localFilePath) => {
     }
 };
 
-export { uploadOnCloudinary };
+const deleteFromCloudinary = async (publicId, type) => {
+    try {
+        if (!publicId) {
+            throw new Error("PublicId is missing or incorrect");
+        }
+        const deleteResult = await v2.uploader.destroy(publicId, {
+            resource_type: type,
+        });
+        return deleteResult;
+    } catch (error) {
+        return error?.message;
+    }
+};
+
+export { uploadOnCloudinary, deleteFromCloudinary };

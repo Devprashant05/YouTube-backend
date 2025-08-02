@@ -32,6 +32,13 @@ const userSchema = new mongoose.Schema(
         coverImage: {
             type: String, // cloudinary url stores here
         },
+        avatarImageId: {
+            type: String,
+            required: true,
+        },
+        coverImageId: {
+            type: String,
+        },
         watchHistory: [
             {
                 type: mongoose.Schema.Types.ObjectId,
