@@ -37,7 +37,6 @@ const deleteFromCloudinary = async (publicId, type) => {
         const deleteResult = await v2.uploader.destroy(publicId, {
             resource_type: type,
         });
-        return deleteResult;
     } catch (error) {
         return error?.message;
     }
