@@ -11,10 +11,78 @@ import mongoose from "mongoose";
 // Get all videos
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 10, query, sortBy, sortType, userId } = req.query;
+    const {
+        page = 1,
+        limit = 10,
+        query = "",
+        sortBy = "createdAt",
+        sortType = "desc",
+        userId,
+    } = req.query;
+
+    const videos = await Video.aggregate([
+        // match Stage for filtering
+        {
+            $match: {
+                $or: [
+                    { title: { $regex: query || "", $options: "i" } },
+                    { description: { $regex: query || "", $options: "i" } },
+                ],
+            },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "videoCreatedBy",
+                pipeline: [
+                    {
+                        $project: {
+                            username: 1,
+                            fullname: 1,
+                            avatar: 1,
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            $addFields: {
+                videoCreatedBy: {
+                    $first: "$videoCreatedBy",
+                },
+            },
+        },
+        {
+            $project: {
+                thumbnail: 1,
+                videoFile: 1,
+                title: 1,
+                description: 1,
+                videoCreatedBy: 1,
+            },
+        },
+        {
+            $sort: {
+                [sortBy]: sortType === "asc" ? 1 : -1,
+            },
+        },
+        {
+            $skip: (page - 1) * limit,
+        },
+        {
+            $limit: parseInt(limit),
+        },
+    ]);
+
+    if (!videos?.length) {
+        return new ApiError(404, "No Videos Found");
+    }
+
     return res
         .status(200)
-        .json(new ApiResponse(201, {}, "video route working"));
+        .json(new ApiResponse(201, videos, "Videos Fetched Successfully"));
 });
 
 // publish video
