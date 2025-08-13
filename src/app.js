@@ -6,6 +6,7 @@ import healthRouter from "./routes/healthcheck.route.js";
 import tweetRouter from "./routes/tweet.route.js";
 import videoRouter from "./routes/video.route.js";
 import subscriptionRouter from "./routes/subscription.route.js";
+import playlistRouter from "./routes/playlist.route.js";
 
 const app = express();
 
@@ -44,5 +45,6 @@ app.use("/api/v1/healthcheck", healthRouter);
 app.use("/api/v1/tweets", tweetRouter);
 app.use("/api/v1/videos", videoRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/playlists", playlistRouter);
 
 export { app };
